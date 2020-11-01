@@ -53,13 +53,17 @@ public class Tutorium {
                 }
             }
 
+            System.out.println("  ");
             System.out.println("Akt Free Trainer " + aktFreeTrainer);
 
 
             // *******************************************
             //
             int p;
-            for(p=0; p< trainers.get(aktFreeTrainer).favs.length; p++) {
+            for(p = 0; p < trainers.get(aktFreeTrainer).favs.length; p++) {
+
+                System.out.println("Akt Pokemon" + p);
+
                 if(pokemons.get(p).matched == false) {
 
                     //Match pokemon to trainer
@@ -68,56 +72,77 @@ public class Tutorium {
                     trainers.get(aktFreeTrainer).matched = true;
                     trainers.get(aktFreeTrainer).matchedID = p;
 
+                    System.out.println("Trainer " + trainers.get(aktFreeTrainer).id + " matched with Pokemon " + pokemons.get(p).matchedID );
+
+                    // matched means not available anymore
                     CountFreeTrainer--;
                     break;
 
                 }
                 else {
                     int ot = pokemons.get(p).matchedID;
+                    System.out.println("Pokemon " +p+ " is already matched! with trainer " + trainers.get(ot).id + "/" + ot);
 
-                    Boolean switching = false;
+                    boolean switching = false;
                     for(int b = 0; b < trainers.size(); b++) {
 
-                        if(trainers.get(aktFreeTrainer).matchedID == pokemons.get(p).favs[b]) {
-                            switching = false;
+                        if(trainers.get(ot).id == pokemons.get(p).favs[b]) {
+                            break;
                         }
-                        if(trainers.get(ot).matchedID == pokemons.get(p).favs[b]) {
+                        if(trainers.get(aktFreeTrainer).id == pokemons.get(p).favs[b]) {
                             switching = true;
                             break;
                         }
 
                     }
 
-                        if (switching == true) {
-                            trainers.get(ot).matched = false;
-                            trainers.get(ot).matchedID = 0;
+                    if (switching) {
+                        trainers.get(ot).matched = false;
+                        trainers.get(ot).matchedID = -1;
 
-                            trainers.get(aktFreeTrainer).matched = true;
-                            trainers.get(aktFreeTrainer).matchedID = pokemons.get(p).id;
+                        trainers.get(aktFreeTrainer).matched = true;
+                        trainers.get(aktFreeTrainer).matchedID = pokemons.get(p).id;
 
-                        }
-
-
-                    for(int y = 0; y < trainers.size(); y++) {
-                        if(trainers.get(aktFreeTrainer).favs[y] == pokemons.get(p).matchedID) {
-                            trainers.get(aktFreeTrainer).crossed[y] = true;
-                        }
+                        System.out.println("Pokemon " +p+ " changed match to Trainer" + trainers.get(aktFreeTrainer).matchedID);
                     }
-
 
                 }
 
-            }
+                // p is now crossed
+                for(int y = 0; y < trainers.size(); y++) {
+                    if(trainers.get(aktFreeTrainer).favs[y] == pokemons.get(p).matchedID) {
+                        trainers.get(aktFreeTrainer).crossed[y] = true;
+                    }
+                }
+
+                for(int i=0; i<trainers.size(); i++) {
+                    System.out.println("");
+                    System.out.print("Trainer " +i +" ");
+                    for (int b=0; b<trainers.get(i).favs.length;b++) {
+                        System.out.print(trainers.get(i).crossed[b]);
+                    }
+                }
+                System.out.println();
 
 
+            } // END LOOPING AKT TRAINERS FAVS
+
+
+
+
+        } // END WHILE
+
+        System.out.println();
+        System.out.println("END RESULT");
+        System.out.println();
+
+        for(int d = 0; d<trainers.size(); d++) {
+            System.out.println("Trainer " + trainers.get(d).id + " is matched with Pokemon " + trainers.get(d).matchedID);
         }
 
         for(int d = 0; d<trainers.size(); d++) {
-            System.out.println("Trainer" + trainers.get(d).id + "is matched with Pokemon" + trainers.get(d).matchedID);
-            System.out.println("Pokemon:" + pokemons.get(d).id + "is matched with Trainer" + pokemons.get(d).matchedID);
+            System.out.println("Pokemon " + pokemons.get(d).id + " is matched with Trainer " + pokemons.get(d).matchedID);
         }
-
-
 
 
     }
