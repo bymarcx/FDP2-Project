@@ -1,4 +1,7 @@
 package com.example.tutorium;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Trainer {
 
@@ -6,17 +9,15 @@ public class Trainer {
 
     public boolean matched = false;
 
-    public int[] favs;
+    public List<Integer> favs = new ArrayList<>();
 
-    public int matchedID;
+    public int matchedID = -1;
 
-    public boolean[] crossed;
 
-    Trainer(int id, int[] favs ) {
+    Trainer(int id, ArrayList<Integer> favs ) {
         this.id = id;
         this.favs = favs;
 
-        crossed = new boolean[] {false, false, false};
     }
 
 
