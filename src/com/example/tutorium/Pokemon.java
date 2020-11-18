@@ -14,7 +14,6 @@ public class Pokemon {
     public int matchedID = -1;
 
 
-
     Pokemon(int id, ArrayList<Integer> favs ) {
         this.id = id;
         this.favs = favs;

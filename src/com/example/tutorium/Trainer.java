@@ -1,7 +1,7 @@
 package com.example.tutorium;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Trainer {
 
@@ -9,7 +9,7 @@ public class Trainer {
 
     public boolean matched = false;
 
-    public List<Integer> favs = new ArrayList<>();
+    public List<Integer> favs;
 
     public int matchedID = -1;
 
@@ -17,7 +17,6 @@ public class Trainer {
     Trainer(int id, ArrayList<Integer> favs ) {
         this.id = id;
         this.favs = favs;
-
     }
 
 
