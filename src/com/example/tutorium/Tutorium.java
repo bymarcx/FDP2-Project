@@ -10,13 +10,17 @@ public class Tutorium {
         List<Pokemon> pokemons = new ArrayList<>();
         List<Trainer> trainers = new ArrayList<>();
 
-        pokemons.add(new Pokemon(0, new ArrayList<>(Arrays.asList(1, 0, 2)) ));
-        pokemons.add(new Pokemon(1, new ArrayList<>(Arrays.asList(2, 1, 0)) ));
-        pokemons.add(new Pokemon(2, new ArrayList<>(Arrays.asList(0, 2, 1)) ));
+        trainers.add(new Trainer(0, new ArrayList<>(Arrays.asList(2,1,4,0,3)) ));
+        trainers.add(new Trainer(1, new ArrayList<>(Arrays.asList(0,1,4,2,3)) ));
+        trainers.add(new Trainer(2, new ArrayList<>(Arrays.asList(3,2,1,0,4)) ));
+        trainers.add(new Trainer(3, new ArrayList<>(Arrays.asList(0,2,3,1,4)) ));
+        trainers.add(new Trainer(4, new ArrayList<>(Arrays.asList(0,1,3,4,2)) ));
 
-        trainers.add(new Trainer(0, new ArrayList<>(Arrays.asList(1, 0, 2)) ));
-        trainers.add(new Trainer(1, new ArrayList<>(Arrays.asList(1, 2, 0)) ));
-        trainers.add(new Trainer(2, new ArrayList<>(Arrays.asList(0, 2, 1)) ));
+        pokemons.add(new Pokemon(0, new ArrayList<>(Arrays.asList(2,4,1,0,3)) ));
+        pokemons.add(new Pokemon(1, new ArrayList<>(Arrays.asList(4,1,0,3,2)) ));
+        pokemons.add(new Pokemon(2, new ArrayList<>(Arrays.asList(3,2,4,0,1)) ));
+        pokemons.add(new Pokemon(3, new ArrayList<>(Arrays.asList(0,1,2,3,4)) ));
+        pokemons.add(new Pokemon(4, new ArrayList<>(Arrays.asList(1,2,3,0,4)) ));
 
         // run!
         matching(trainers, pokemons);
@@ -44,9 +48,9 @@ public class Tutorium {
 
             // *******************************************
             // GET FIRST FREE TRAINER
-            int aktFreeTrainer = -1;
+            int aktFreeTrainer;
             for(int i=0; i<trainers.size(); i++) {
-                aktFreeTrainer = trainers.get(i).id ;
+                aktFreeTrainer = i; // trainers.get(i).id ;
 
                 if(trainers.get(aktFreeTrainer).matched == false) {
 
@@ -66,7 +70,7 @@ public class Tutorium {
 
                         //Match pokemon to trainer
                         pokemons.get(favPoke).matched = true;
-                        pokemons.get(favPoke).matchedID = aktFreeTrainer;
+                        pokemons.get(favPoke).matchedID = trainers.get(aktFreeTrainer).id;
                         trainers.get(aktFreeTrainer).matched = true;
                         trainers.get(aktFreeTrainer).matchedID = pokemons.get(favPoke).id;
 
@@ -77,24 +81,17 @@ public class Tutorium {
 
                     }
                     else {
-                        int ot = pokemons.get(favPoke).matchedID;
+                        int ot = trainers.get(pokemons.get(favPoke).matchedID).id;
+
+                        System.out.println("ot1 :" + ot);
+
                         System.out.println("Akt Pokemon " + favPoke + " is already matched with trainer " + trainers.get(ot).id);
 
                         // check which trainer is preferred
-                        boolean switching = false;
-                        for(int b = 0; b < trainers.size(); b++) {
-                            if(trainers.get(ot).id == pokemons.get(p).favs.get(b)) {
-                                System.out.println("Trainer ot" + ot + " is first! DO NOT SWITCH");
-                                break;
-                            }
-                            if(trainers.get(aktFreeTrainer).id == pokemons.get(p).favs.get(b)) {
-                                System.out.println("Trainer aktFreeTrainer" + aktFreeTrainer + " is first! DO SWITCH");
-                                switching = true;
-                                break;
-                            }
-                        }
 
-                        if (switching) {
+
+
+                        if (ChangeTrainer(trainers, pokemons, aktFreeTrainer, ot, favPoke)) {
                             // set old trainer unmatched
                             trainers.get(ot).matched = false;
                             trainers.get(ot).matchedID = -1;
@@ -154,6 +151,22 @@ public class Tutorium {
         }
 
 
+    }
+
+
+    public static boolean ChangeTrainer(List<Trainer>trainers, List<Pokemon> pokemons, int aktFreeTrainer, int ot, int favPoke ) {
+
+        for(int b = 0; b < trainers.size(); b++) {
+            if(pokemons.get(favPoke).favs.get(b) == ot) {
+                System.out.println("Trainer ot" + ot + " is first! DO NOT SWITCH");
+                return false;
+            }
+            if(pokemons.get(favPoke).favs.get(b) == aktFreeTrainer) {
+                System.out.println("Trainer aktFreeTrainer" + aktFreeTrainer + " is first! DO SWITCH");
+                return true;
+            }
+        }
+        return false;
     }
 
 }
